@@ -1,0 +1,46 @@
+<dom-module id="about-element">
+  <template>
+    <style>
+      paper-material {
+        padding: 30px;
+        margin: 10px;
+        background-color: #ffffff;
+        /*text-align: center;*/
+      }
+
+      #material {
+        max-width: 800px;
+        margin-left: auto;
+        margin-right: auto;
+        /*text-align: center;*/
+      }
+
+    </style>
+    <div id="material">
+      <paper-material elevation="4">
+        <div>
+          <p>Useful application which helps learn how to write numbers in a foreign language.</p>
+          <p>Currently supported languages:
+            <ul>
+              <li>English</li>
+              <li>Spanish</li>
+              <li>French</li>
+              <li>Italian</li>
+              <li>Vietnamese</li>
+              <li>Esperanto</li>
+            </ul>
+          </p>
+        </div>
+      </paper-material>
+    </div>
+  </template>
+  <script>
+    (function () {
+      'use strict';
+      Polymer({
+        is: 'about-element',
+        properties: {}
+      });
+    })();
+  </script>
+</dom-module>

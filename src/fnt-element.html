@@ -1,0 +1,117 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<!--<link rel="import" href="../bower_components/paper-styles/typography.html">-->
+
+<dom-module id="fnt-element">
+  <template>
+    <style is="custom-style">
+      :host {
+        display: block;
+      }
+      paper-material {
+        padding: 30px;
+        margin: 10px;
+        background-color: #ffffff;
+        text-align: center;
+      }
+      #number {
+        font-family: Roboto;
+        font-size: 3em;
+      }
+      #correctIcon {
+        color: var(--paper-green-500);
+        visibility: hidden;
+      }
+      #place-holder{
+        visibility: hidden
+      }
+
+      #material{
+        max-width: 400px;
+        margin-left: auto;
+        margin-right: auto;
+        text-align: center;
+      }
+    </style>
+    <div id="material">
+      <paper-material elevation="4">
+        <div id="number" hidden$="{{!settings.isShow}}">[[number]]</div>
+        <div hidden$="[[!settings.isShowAnswer]]">[[numeral]]</div>
+        <paper-input id="userInputField" on-input="verify" value="{{userInput}}">
+          <iron-icon id="place-holder" icon="check" prefix></iron-icon>
+          <iron-icon id="correctIcon" icon="check" suffix></iron-icon>
+        </paper-input>
+        <voice-player id="player"></voice-player>
+        <paper-icon-button on-tap="_handleShow" icon="help-outline"></paper-icon-button>
+        <paper-icon-button on-tap="speakNumber" icon="record-voice-over"></paper-icon-button>
+      </paper-material>
+    </div>
+  </template>
+
+  <script>
+    (function () {
+      'use strict';
+
+      Polymer({
+        is: 'fnt-element',
+
+        properties: {
+          number: Number,
+          settings: {
+            type: Object,
+            notify: true
+          }
+        },
+        observers: [
+          'settingsChanged(settings.lang)'
+        ],
+        settingsChanged: function(name) {
+          this.generateNumber();
+        },
+        attached: function () {
+          this.generateNumber();
+        },
+
+        generateNumber: function () {
+          var min = parseInt(this.settings.range.from);
+          var max = parseInt(this.settings.range.to);
+          this.number = Math.floor(Math.random() * (max - min + 1)) + min;
+          this.numeral = writtenNumber(this.number, {lang: this.settings.lang});
+          this.set('settings.isShowAnswer', false);
+          if (this.settings.isSpeak) {
+            this.speakNumber();
+          }
+        },
+
+        speakNumber: function () {
+          this.$.player.text = this.numeral;
+          this.$.player.accent = this.settings.lang;
+          this.$.player.speak();
+        },
+
+        verify: function () {
+          if (this.numeral == this.userInput) {
+            this.$.userInputField.classList.add('correct');
+            this.$.correctIcon.hidden = false;
+            this.$.correctIcon.style.visibility = 'inherit'
+            var self = this;
+            setTimeout(function () {
+              self.generateNumber();
+              self.clearUserInput();
+              self.$.userInputField.classList.remove('correct');
+//              self.$.correctIcon.hidden = true;
+              self.$.correctIcon.style.visibility = 'hidden'
+            }, 500);
+          }
+        },
+
+        clearUserInput: function () {
+          this.userInput = '';
+        },
+
+        _handleShow: function () {
+          this.set('settings.isShowAnswer', !this.settings.isShowAnswer);
+        }
+      });
+    })();
+  </script>
+</dom-module>

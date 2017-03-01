@@ -1,0 +1,88 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/paper-styles/typography.html">
+
+<dom-module id="fnt-settings">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+      paper-material {
+        padding: 30px;
+        margin: 10px;
+      }
+      paper-toggle-button{
+        display: inline-block;
+        float: right;
+        --paper-toggle-button-checked-button-color:  var(--paper-purple-500);
+        --paper-toggle-button-checked-bar-color:  var(--paper-purple-200);
+
+      }
+      #settings{
+        margin: 10px;
+      }
+      paper-input{
+        display: inline-block;
+        width: 45%;
+      }
+    </style>
+    <div id="settings">
+      <div style="margin-bottom:10px;">
+        <span>Speak numbers</span>
+        <paper-toggle-button id="speakCheckBox" on-change="changeSpeakHandler"></paper-toggle-button>
+      </div>
+      <div>
+        <span>Show numbers</span>
+        <paper-toggle-button id="showCheckBox" on-change="changeShowHandler"></paper-toggle-button>
+      </div>
+      <paper-dropdown-menu label="Language" >
+        <paper-listbox class="dropdown-content" selected="{{settings.lang}}" attr-for-selected="value">
+          <paper-item value="en">English</paper-item>
+          <paper-item value="fr">French</paper-item>
+          <paper-item value="es">Spanish</paper-item>
+          <paper-item value="pt">Portuguese</paper-item>
+          <paper-item value="vi">Vietnamese</paper-item>
+          <paper-item value="it">Italian</paper-item>
+          <paper-item value="eo">Esperanto</paper-item>
+        </paper-listbox>
+      </paper-dropdown-menu>
+      <div>
+        <paper-input label="From" auto-validate pattern="[0-9]*" error-message="numbers only!" value="{{settings.range.from}}"></paper-input>
+        <paper-input label="To" auto-validate pattern="[0-9]*" error-message="numbers only!" value="{{settings.range.to}}"></paper-input>
+      </div>
+      <app-footer></app-footer>
+    </div>
+  </template>
+
+  <script>
+    (function () {
+      'use strict';
+
+      Polymer({
+        is: 'fnt-settings',
+        properties: {
+          settings: {
+            type: Object,
+            notify: true
+          }
+        },
+        ready: function () {
+          console.log("attached");
+          this.settings = {name: 'Settings'};
+          this.set('settings.range', {from: 0, to: 10});
+          this.settings.isSpeak = false;
+          this.$.speakCheckBox.checked = this.settings.isSpeak;
+          this.settings.isShow = true;
+          this.$.showCheckBox.checked = this.settings.isShow;
+          this.set('settings.lang', 'en');
+        },
+        changeSpeakHandler: function(){
+          this.set('settings.isSpeak', !this.settings.isSpeak);
+        },
+        changeShowHandler: function(){
+          this.set('settings.isShow', !this.settings.isShow);
+        }
+      });
+    })();
+  </script>
+</dom-module>
