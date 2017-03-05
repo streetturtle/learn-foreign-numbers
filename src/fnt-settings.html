@@ -14,9 +14,8 @@
       paper-toggle-button{
         display: inline-block;
         float: right;
-        --paper-toggle-button-checked-button-color:  var(--paper-purple-500);
-        --paper-toggle-button-checked-bar-color:  var(--paper-purple-200);
-
+        --paper-toggle-button-checked-button-color:  #3CA2A2;
+        --paper-toggle-button-checked-bar-color:  #328686;
       }
       #settings{
         margin: 10px;
@@ -24,7 +23,19 @@
       paper-input{
         display: inline-block;
         width: 45%;
+        --paper-input-container-label: #3CA2A2;
+        --paper-input-container-color: #ffffff;
+        --paper-input-container-focus-color: #ffffff;
+        --paper-input-container-invalid-color: #f44336;
+        --paper-input-container-input-color: #ffffff;
       }
+      paper-dropdown-menu{
+        --paper-input-container-focus-color: #3CA2A2;
+        --paper-input-container-color: #ffffff;
+        --paper-input-container-input-color: #ffffff;
+        --paper-input-container-label-color: #ffffff;
+      }
+
     </style>
     <div id="settings">
       <div style="margin-bottom:10px;">
